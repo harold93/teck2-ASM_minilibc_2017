@@ -16,7 +16,8 @@ RM	= rm -f
 DIR	= src/
 
 SRCS	=	$(DIR)strlen.asm	\
-		$(DIR)strchr.asm
+		$(DIR)strchr.asm	\
+		$(DIR)strcmp.asm
 
 OBJS	= $(SRCS:.asm=.o)
 
@@ -25,8 +26,11 @@ OBJS	= $(SRCS:.asm=.o)
 
 all: $(NAME)
 
-$(NAME): strlen.o strchr.o
-	$(CC) $(DIR)strlen.o $(DIR)strchr.o -fPIC -shared -o $(NAME)
+$(NAME): strlen.o strchr.o strcmp.o
+	$(CC) $(DIR)strlen.o $(DIR)strchr.o $(DIR)strcmp.o -fPIC -shared -o $(NAME)
+
+strcmp.o: $(DIR)strcmp.asm
+	nasm -felf64 -F dwarf -g $(DIR)strcmp.asm
 
 strlen.o: $(DIR)strlen.asm
 	nasm -felf64 -F dwarf -g $(DIR)strlen.asm
