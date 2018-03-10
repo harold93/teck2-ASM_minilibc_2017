@@ -20,7 +20,8 @@ SRCS	=	$(DIR)strlen.asm	\
 		$(DIR)strcmp.asm	\
 		$(DIR)strncmp.asm	\
 		$(DIR)strstr.asm	\
-		$(DIR)memset.asm
+		$(DIR)memset.asm	\
+		$(DIR)memcpy.asm
 
 OBJS	= $(SRCS:.asm=.o)
 
@@ -29,8 +30,11 @@ OBJS	= $(SRCS:.asm=.o)
 
 all: $(NAME)
 
-$(NAME): strlen.o strchr.o strcmp.o strncmp.o strstr.o memset.o
-	$(CC) $(DIR)strlen.o $(DIR)strchr.o $(DIR)strcmp.o $(DIR)strncmp.o $(DIR)strstr.o $(DIR)memset.o -fPIC -shared -o $(NAME)
+$(NAME): strlen.o strchr.o strcmp.o strncmp.o strstr.o memset.o memcpy.o
+	$(CC) $(DIR)strlen.o $(DIR)strchr.o $(DIR)strcmp.o $(DIR)strncmp.o $(DIR)strstr.o $(DIR)memset.o $(DIR)memcpy.o -fPIC -shared -o $(NAME)
+
+memcpy.o: $(DIR)memcpy.asm
+	nasm -felf64 -F dwarf -g $(DIR)memcpy.asm
 
 memset.o: $(DIR)memset.asm
 	nasm -felf64 -F dwarf -g $(DIR)memset.asm
