@@ -1,7 +1,7 @@
 	section	.text
-global	my_strpbrk:function
+global	strpbrk:function
 
-my_strpbrk:
+strpbrk:
 	jmp	go
 
 go:
