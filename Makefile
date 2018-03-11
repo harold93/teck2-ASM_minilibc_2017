@@ -24,7 +24,8 @@ SRCS	=	$(DIR)strlen.asm	\
 		$(DIR)memcpy.asm	\
 		$(DIR)memmove.asm	\
 		$(DIR)strcasecmp.asm	\
-		$(DIR)rindex.asm
+		$(DIR)rindex.asm	\
+		$(DIR)strpbrk.asm
 
 OBJS	= $(SRCS:.asm=.o)
 
@@ -33,8 +34,11 @@ OBJS	= $(SRCS:.asm=.o)
 
 all: $(NAME)
 
-$(NAME): strlen.o strchr.o strcmp.o strncmp.o strstr.o memset.o memcpy.o memmove.o strcasecmp.o rindex.o
-	$(CC) $(DIR)strlen.o $(DIR)strchr.o $(DIR)strcmp.o $(DIR)strncmp.o $(DIR)strstr.o $(DIR)memset.o $(DIR)memcpy.o $(DIR)memmove.o $(DIR)strcasecmp.o $(DIR)rindex.o -fPIC -shared -o $(NAME)
+$(NAME): strlen.o strchr.o strcmp.o strncmp.o strstr.o memset.o memcpy.o memmove.o strcasecmp.o rindex.o strpbrk.o
+	$(CC) $(DIR)strlen.o $(DIR)strchr.o $(DIR)strcmp.o $(DIR)strncmp.o $(DIR)strstr.o $(DIR)memset.o $(DIR)memcpy.o $(DIR)memmove.o $(DIR)strcasecmp.o $(DIR)rindex.o $(DIR)strpbrk.o -fPIC -shared -o $(NAME)
+
+strpbrk.o: $(DIR)strpbrk.asm
+	nasm -felf64 -F dwarf -g $(DIR)strpbrk.asm
 
 rindex.o: $(DIR)rindex.asm
 	nasm -felf64 -F dwarf -g $(DIR)rindex.asm
